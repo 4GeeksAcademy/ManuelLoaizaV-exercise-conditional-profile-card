@@ -26,23 +26,73 @@ function render(variables = {}) {
   console.log("These are the current variables: ", variables); // print on the console
   // here we ask the logical questions to make decisions on how to build the html
   // if includeCover==false then we reset the cover code without the <img> tag to make the cover transparent.
-  let cover = `<div class="cover"><img src="${variables.background}" /></div>`;
+  let cover = `<div class="cover"><img src="${
+    variables.background !== null
+      ? variables.background
+      : "https://images.fastcompany.com/image/upload/wp-cms/uploads/2021/03/LinkedIn-Default-Background-2020--813x201.webp"
+  }" /></div>`;
   if (variables.includeCover == false) cover = "<div class='cover'></div>";
 
   // reset the website body with the new html output
   document.querySelector("#widget_content").innerHTML = `<div class="widget">
-            ${cover}
-          <img src="${variables.avatarURL}" class="photo" />
-          <h1>Lucy Boilett</h1>
-          <h2>Web Developer</h2>
-          <h3>Miami, USA</h3>
-          <ul class="position-right">
-            <li><a href="https://twitter.com/4geeksacademy"><i class="fab fa-twitter"></i></a></li>
-            <li><a href="https://github.com/4geeksacademy"><i class="fab fa-github"></i></a></li>
-            <li><a href="https://linkedin.com/school/4geeksacademy"><i class="fab fa-linkedin"></i></a></li>
-            <li><a href="https://instagram.com/4geeksacademy"><i class="fab fa-instagram"></i></a></li>
-          </ul>
-        </div>
+          ${cover}
+          <img src="${
+            variables.avatarURL !== null
+              ? variables.avatarURL
+              : "https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg"
+          }" class="photo" />
+          <h1>${
+            variables.name !== null && variables.lastName !== null
+              ? variables.name + " " + variables.lastName
+              : variables.name !== null
+              ? variables.name
+              : variables.lastName !== null
+              ? variables.lastName
+              : "Human being"
+          }</h1>
+          ${variables.role !== null ? `<h2>${variables.role}</h2>` : ""}
+          <h3>${
+            variables.city !== null && variables.country !== null
+              ? variables.city + ", " + variables.country
+              : variables.city !== null
+              ? variables.city
+              : variables.country !== null
+              ? variables.country
+              : "Earth, Solar System"
+          }</h3>
+          ${
+            variables.twitter !== null ||
+            variables.github !== null ||
+            variables.linkedin !== null ||
+            variables.instagram !== null
+              ? `<ul class="${
+                  variables.socialMediaPosition !== null
+                    ? variables.socialMediaPosition
+                    : "position-right"
+                }">
+                ${
+                  variables.twitter !== null
+                    ? `<li><a href="https://twitter.com/${variables.twitter}"><i class="fab fa-twitter"></i></a></li>`
+                    : ""
+                }
+                ${
+                  variables.github !== null
+                    ? `<li><a href="https://github.com/${variables.github}"><i class="fab fa-github"></i></a></li>`
+                    : ""
+                }
+                ${
+                  variables.linkedin !== null
+                    ? `<li><a href="https://linkedin.com/${variables.linkedin}"><i class="fab fa-linkedin"></i></a></li>`
+                    : ""
+                }
+                ${
+                  variables.instagram !== null
+                    ? `<li><a href="https://instagram.com/${variables.instagram}"><i class="fab fa-instagram"></i></a></li>`
+                    : ""
+                }
+                </ul>`
+              : ""
+          }
     `;
 }
 
